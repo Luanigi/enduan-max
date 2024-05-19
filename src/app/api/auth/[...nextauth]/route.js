@@ -1,5 +1,5 @@
 import NextAuth from "next-auth"
-import GoogleProvider from "next-auth/providers/Google.js"
+import GoogleProvider from "next-auth/providers/google"
 
 const handler = NextAuth ({
   // Configure one or more authentication providers
