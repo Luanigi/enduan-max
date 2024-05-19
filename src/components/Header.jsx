@@ -12,6 +12,10 @@ import { app } from '@/firebase'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage' 
 import { addDoc, collection, getFirestore, serverTimestamp } from 'firebase/firestore'
 
+
+Modal.defaultStyles.overlay.backgroundColor = '#333333AA';
+Modal.defaultStyles.content.backgroundColor = '#222222CC';
+
 export default function Header() {
     const { data: session } = useSession();
     const [isOpen, setIsOpen] = useState(false)
@@ -77,6 +81,7 @@ export default function Header() {
         })
         setPostUploading(false);
         setIsOpen(false);
+        location.reload();
     }
   return (
     <div className='shadow-sm border-b border-slate-500 sticky top-0 bg-slate-700 z-30 p-3'>
@@ -124,7 +129,7 @@ export default function Header() {
         </div>
         {
             isOpen && (
-                <Modal isOpen={isOpen} className={"max-w-lg w-[90%] p-6 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-slate-600 border-2 rounded-md shadow-md"} onRequestClose={() =>setIsOpen(false)} ariaHideApp={false}>
+                <Modal isOpen={isOpen} className={"max-w-lg w-[90%] p-6 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-slate-600 border-none outline-none rounded-md shadow-md"} onRequestClose={() =>setIsOpen(false)} ariaHideApp={false}>
                     <div className='flex flex-col justify-center items-center h-[100%]'>
                         {selectedFile ? (
                             <img
