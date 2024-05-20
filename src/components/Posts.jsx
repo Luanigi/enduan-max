@@ -1,3 +1,5 @@
+"use client";
+
 import { collection, getFirestore, orderBy, query } from 'firebase/firestore';
   import { app } from '../firebase';
   import Post from './Post';
