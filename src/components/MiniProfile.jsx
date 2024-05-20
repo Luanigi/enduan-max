@@ -9,7 +9,7 @@ export default function MiniProfile() {
         <img src={
             session?.user?.image || '/min-logo.png'} 
             alt="user-profile-pic" 
-            className="w-16 h-16 rounded-full border-2 border-slate-700 p-[2px] cursor-pointer"/>
+            className="w-16 h-16 rounded-full cursor-pointer"/>
             <div className="flex-1 ml-4">
                 <h2 className="font-bold">{session?.user?.username}</h2>
                 <h3 className="text-sm text-gray-400">Welcome to Enduan Max</h3>
