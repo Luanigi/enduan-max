@@ -81,7 +81,7 @@ export default function CommentSection({ id }) {
         <button
           disabled={!comment.trim()}
           type='submit'
-          className=' text-blue-400 disabled:cursor-not-allowed disabled:text-gray-400'
+          className=' text-blue-400 disabled:cursor-not-allowed disabled:text-gray-400 pr-2'
         >
           Post
         </button>

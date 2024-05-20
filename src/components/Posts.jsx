@@ -1,14 +1,14 @@
 "use client";
 
 import { collection, getFirestore, onSnapshot, orderBy, query } from 'firebase/firestore';
-  import { app } from '../firebase';
-  import Post from './Post';
-  import { useEffect, useState } from 'react';
+import { app } from '../firebase';
+import Post from './Post';
+import { useEffect, useState } from 'react';
 
   
-  export default function Posts() {
+export default function Posts() {
     const [data, setData] = useState([]);
-  
+    
     useEffect(() => {
       const db = getFirestore(app);
       const q = query(collection(db, 'posts'), orderBy('timestamp', 'desc'));
