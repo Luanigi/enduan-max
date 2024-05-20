@@ -1,6 +1,6 @@
 "use client";
 
-import { collection, getFirestore, orderBy, query } from 'firebase/firestore';
+import { collection, getFirestore, onSnapshot, orderBy, query } from 'firebase/firestore';
   import { app } from '../firebase';
   import Post from './Post';
   import { useEffect, useState } from 'react';
