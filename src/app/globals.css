@@ -28,5 +28,5 @@ body {
 
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--normgreen);
+  @apply bg-slate-500;
 }
