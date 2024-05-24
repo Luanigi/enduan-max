@@ -31,6 +31,8 @@ export default function Header() {
         if (file) {
             setSelectedFile(file);
             setImageFileUrl(URL.createObjectURL(file))
+        } else {
+            <p>Image not found</p>
         }
     }
 
