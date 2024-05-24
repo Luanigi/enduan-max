@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "Enduan max",
   description: "A non-censored, knowledge based, social-media plattform for having fun and learning!",
-  icon: '/icon.png' || "/favicon.ico",
+  icon: '/icon.png',
 };
 
 export default function RootLayout({ children }) {
