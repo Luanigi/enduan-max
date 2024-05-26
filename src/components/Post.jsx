@@ -14,10 +14,10 @@ export default function Post({post}) {
 
         <img src={post.image} alt={post.caption} className="object-cover w-full" />
         <LikeSection id = {post.id} />
-        <p className="p-5">
+        <p className="p-5 textdata">
             <span className="font-bold mr-2">{post.username}</span>
             <br />
-            <p className="">{post.caption}</p>
+            {post.caption}
         </p>
         <CommentSection id = {post.id} />
     </div>

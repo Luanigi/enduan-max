@@ -10,7 +10,7 @@ import { HiCamera } from 'react-icons/hi'
 import { AiOutlineClose } from 'react-icons/ai'
 import { app } from '@/firebase'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage' 
-import { addDoc, collection, getFirestore, serverTimestamp } from 'firebase/firestore'
+import { addDoc, collection, doc, getFirestore, serverTimestamp } from 'firebase/firestore'
 
 
 Modal.defaultStyles.overlay.backgroundColor = '#333333AA';
@@ -83,6 +83,33 @@ export default function Header() {
         setIsOpen(false);
         location.reload();
     }
+{/*}
+    const search = () => {
+        let search_input, post, a, i;
+        search_input = document.getElementById("search").value.toLowerCase();
+       
+        post = document.getElementsByClassName(".textdata");
+      
+        for (i = 0; i < post.length; i++) {
+          p = post[i].getElementsByTagName("p")[0];
+
+          if (p.innerHTML.toLowerCase().indexOf(search_input) > -1) {
+            p[i].style.display = "";
+          } else {
+            p[i].style.display = "none";
+          }
+        }
+    }
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            console.log("cliked");
+            search();
+        }
+    });
+
+*/}
   return (
     <div className='shadow-sm border-b border-slate-500 sticky top-0 bg-slate-700 z-30 p-3'>
         <div className='flex justify-between items-center max-w-6xl mx-auto'>
@@ -108,7 +135,12 @@ export default function Header() {
         
         {/*search input*/}
 
-        <input type="text" placeholder="Search" className='bg-slate-700 border-zinc-400 border-2 rounded text-sm w-full py-2 px-4 max-w-[210px] ' />
+        <input 
+            type="search" 
+            placeholder="Search" 
+            aria-label="Search" 
+            id='search'
+            className='bg-slate-700 border-zinc-400 border-2 rounded text-sm w-full py-2 px-4 max-w-[210px] ' />
 
         {/*menu items*/}
 
