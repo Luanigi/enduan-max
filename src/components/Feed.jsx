@@ -33,14 +33,14 @@ export default function Feed() {
             content and echo chambers? We are too. Here, you 
             can explore a vast ocean of information, engage 
             in stimulating discussions, and have a blast 
-            while you're at it.
+            while you&apos;re at it.
           </p>
 
           <p className="w-3/4 text-justify mx-auto p-5">
             Enduan Max is built on the foundation of uncensored, 
             knowledge-based content. Dive deep into diverse topics, 
             share your unique perspectives, and learn from a vibrant 
-            community. Don't be afraid to ask questions, challenge ideas, 
+            community. Don&apos;t be afraid to ask questions, challenge ideas, 
             and have a little fun along the way. We encourage healthy 
             debate, creativity, and a thirst for knowledge. So, buckle up, 
             unleash your curiosity, and get ready to experience a whole new 
