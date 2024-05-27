@@ -23,7 +23,7 @@ export default function Feed() {
         </main>
       </>
       ) : (
-        <main className="w-2/4 mx-auto">
+        <main className="lg:w-2/4 mx-auto">
         <section className="text-center">
           <h1 className="text-3xl text-center pt-10">Welcome to Enduan MAX</h1>
           <p className="w-3/4 text-justify mx-auto p-5">

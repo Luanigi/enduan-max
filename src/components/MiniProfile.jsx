@@ -23,7 +23,7 @@ export default function MiniProfile() {
             ) : (
                 <button
                 onClick={signIn}
-                className="text-blue-500 text-sm font-semibold">
+                className="text-blue-500 text-sm font-semibold"> 
                     Sign In
                 </button>
             )}
