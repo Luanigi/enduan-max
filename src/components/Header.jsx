@@ -111,7 +111,7 @@ export default function Header() {
 
 */}
   return (
-    <div className='shadow-sm border-b border-slate-500 sticky top-0 bg-slate-700 z-30 p-3'>
+    <div className='shadow-sm border-b border-slate-500 sticky top-0 z-30 p-3 bg-white/200 backdrop-blur-lg'>
         <div className='flex justify-between items-center max-w-6xl mx-auto'>
         {/*logo*/}
         
@@ -140,7 +140,7 @@ export default function Header() {
             placeholder="Search" 
             aria-label="Search" 
             id='search'
-            className='bg-slate-700 border-zinc-400 border-2 rounded text-sm w-full py-2 px-4 max-w-[210px] ' />
+            className='bg-zinc-700 outline-zinc-400 outline-2 p-3 rounded text-sm w-full py-2 px-4 max-w-[210px] ' />
 
         {/*menu items*/}
 
@@ -161,14 +161,14 @@ export default function Header() {
         </div>
         {
             isOpen && (
-                <Modal isOpen={isOpen} className={"max-w-lg w-[90%] p-6 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-slate-600 border-none outline-none rounded-md shadow-md"} onRequestClose={() =>setIsOpen(false)} ariaHideApp={false}>
+                <Modal isOpen={isOpen} className={"max-w-lg w-[90%] p-6 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-white/4 backdrop-blur-2xl border-2 border-zinc-600 outline-none rounded-md shadow-md"} onRequestClose={() =>setIsOpen(false)} ariaHideApp={false}>
                     <div className='flex flex-col justify-center items-center h-[100%]'>
                         {selectedFile ? (
                             <img
                                 onClick={() => setSelectedFile(null)}
                                 src={imageFileUrl}
                                 alt='selected file'
-                                className={`w-full max-h-[250px] object-cover cursor-pointer ${imageFileUploading ? 'animate-pulse' : ''}`}/>
+                                className={`w-full rounded max-h-[250px] object-cover cursor-pointer ${imageFileUploading ? 'animate-pulse' : ''}`}/>
                         ) : ( 
                         <HiCamera onClick={()=>filePickerRef.current.click()} className='text-5xl text-gray-400 cursor-pointer'/>
                         )}
@@ -183,7 +183,7 @@ export default function Header() {
                         type="text" 
                         maxLength='150' 
                         placeholder='Please enter your caption...' 
-                        className='my-4 border-none text-center w-full focus:ring-0 outline-none bg-slate-700 text-white' 
+                        className='my-4 border-none text-center w-full focus:ring-0 outline-none bg-transparent text-white' 
                         onChange={(e) => setCaption(e.target.value)}/>
                         
                     <button 
@@ -191,7 +191,7 @@ export default function Header() {
                     disabled={
                         !selectedFile || caption.trim() === '' || postUploading || imageFileUploading
                     }
-                    className='w-full bg-slate-800 text-white p-2 shadow-md rounded-lg hover:brightness-105 disabled:bg-slate-500 disabled:text-slate-400 disabled:cursor-not-allowed disabled:hover:brightness-100'>Upload Post</button>
+                    className='w-full bg-zinc-900 text-white p-2 shadow-md rounded-lg hover:brightness-105 disabled:bg-zinc-500 disabled:text-zinc-400 disabled:cursor-not-allowed disabled:hover:brightness-100'>Upload Post</button>
                     <AiOutlineClose className='cursor-pointer absolute top-2 right-2 hover:text-red-600 transition duration-300' onClick={() => setIsOpen(false)} />
                 </Modal>
             )

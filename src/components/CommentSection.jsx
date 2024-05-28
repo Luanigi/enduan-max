@@ -44,12 +44,12 @@ export default function CommentSection({ id }) {
         {comments.map((comment, id) => (
           <div
             key={id}
-            className='flex items-center space-x-2 mb-2 justify-between bg-slate-600 p-2 rounded-md'
+            className='flex items-center space-x-2 mb-2 justify-between bg-zinc-600 p-2 rounded-md'
           >
             <img
               src={comment.data().userImage}
               alt='userimage'
-              className='h-7 rounded-full object-cover border p-[2px]'
+              className='h-7 rounded-full object-cover border border-slate-500 p-[2px]'
             />
             <p className='text-sm flex-1 truncate'>
               <span className='font-bold text-slate-200'>
@@ -76,7 +76,7 @@ export default function CommentSection({ id }) {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           placeholder='Add a comment...'
-          className='border-none flex-1 focus:ring-0 outline-none bg-slate-700'
+          className='border-none flex-1 focus:ring-0 outline-none bg-zinc-700'
         />
         <button
           disabled={!comment.trim()}

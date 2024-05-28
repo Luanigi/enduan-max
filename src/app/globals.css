@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  @apply bg-slate-800 text-white;
+  @apply bg-zinc-900 text-white;
 }
 
 ::-webkit-scrollbar {
@@ -16,17 +16,17 @@ body {
 
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-900;
+  @apply bg-zinc-800;
   border-radius: 10px;
 }
 
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-500;
+  @apply bg-zinc-500;
   border-radius: 10px;
 }
 
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-500;
+  @apply bg-zinc-500;
 }
