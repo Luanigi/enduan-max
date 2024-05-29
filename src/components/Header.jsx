@@ -188,10 +188,15 @@ export default function Header() {
                         
                     <button 
                     onClick={handleSubmit}
+                    
                     disabled={
                         !selectedFile || caption.trim() === '' || postUploading || imageFileUploading
                     }
-                    className='w-full bg-zinc-900 text-white p-2 shadow-md rounded-lg hover:brightness-105 disabled:bg-zinc-500 disabled:text-zinc-400 disabled:cursor-not-allowed disabled:hover:brightness-100'>Upload Post</button>
+                    
+                    className='w-full bg-zinc-900 text-white p-2 shadow-md rounded-lg hover:brightness-105 disabled:bg-zinc-500 disabled:text-zinc-400 disabled:cursor-not-allowed disabled:hover:brightness-100'>
+                        {imageFileUploading ? 'Uploading...' : (selectedFile ? 'Upload Post' : 'Select Image')}
+                    </button>
+                    
                     <AiOutlineClose className='cursor-pointer absolute top-2 right-2 hover:text-red-600 transition duration-300' onClick={() => setIsOpen(false)} />
                 </Modal>
             )
