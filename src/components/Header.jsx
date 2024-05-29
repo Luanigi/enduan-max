@@ -111,7 +111,7 @@ export default function Header() {
 
 */}
   return (
-    <div className='shadow-sm border-b border-slate-500 sticky top-0 z-30 p-3 bg-white/200 backdrop-blur-lg'>
+    <div className='shadow-sm border-b border-slate-500 sticky top-0 z-30 p-3 bg-white/200 backdrop-blur-2xl'>
         <div className='flex justify-between items-center max-w-6xl mx-auto'>
         {/*logo*/}
         
@@ -161,7 +161,7 @@ export default function Header() {
         </div>
         {
             isOpen && (
-                <Modal isOpen={isOpen} className={"max-w-lg w-[90%] p-6 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-white/4 backdrop-blur-2xl border-2 border-zinc-600 outline-none rounded-md shadow-md"} onRequestClose={() =>setIsOpen(false)} ariaHideApp={false}>
+                <Modal isOpen={isOpen} className={"max-w-lg w-[90%] p-6 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] backdrop-blur-2xl border-2 border-zinc-600 outline-none rounded-md shadow-md"} onRequestClose={() =>setIsOpen(false)} ariaHideApp={false}>
                     <div className='flex flex-col justify-center items-center h-[100%]'>
                         {selectedFile ? (
                             <img
