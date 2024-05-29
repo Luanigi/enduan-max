@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react'
 import React, { useState, useEffect } from "react"
 import { AiOutlineClose } from 'react-icons/ai'
 import Modal from 'react-modal'
+import Link from "next/link"
 
 Modal.defaultStyles.overlay.backgroundColor = '#333333AA';
 Modal.defaultStyles.content.backgroundColor = '#222222CC';
@@ -33,11 +34,13 @@ export default function Post({post, onDeletePost}) {
  return (
     <div className="bg-zinc-700 my-7 border rounded-md mx-10">
       <div className="flex items-center p-5 border-bottom border-gray-100 border-b-2">
+      {/* <Link href={`/profile/${post.username}`}> */}
         <img
           src={post.profileImg}
           alt={post.username}
           className="h-12 rounded-full object-cover border-2 border-slate-600 p-1 mr-3"
         />
+      {/* </Link> */}
         <p className="flex-1 font-bold overflow-x-hidden">{post.username}</p>
         { session.user.username === post.username && (
           <button id="delete" onClick={() => setIsOpen(true)}>

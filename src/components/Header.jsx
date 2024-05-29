@@ -147,10 +147,11 @@ export default function Header() {
         {session ? (
             <div className='flex gap-2 items-center'>
             <IoMdAddCircleOutline className='text-2xl cursor-pointer transform hover:scale-125 transition duration-300 hover:text-red-600' onClick={()=>setIsOpen(true)}/>
-            <img src={session.user.image} 
-            alt={session.user.name} 
-            className='h-10 w-10 rounded-full cursor-pointer' 
-            onClick={signOut} />
+            <Link href={`/profile/${session.user.username}`}>
+                <img src={session.user.image} 
+                    alt={session.user.name} 
+                    className='h-10 w-10 rounded-full cursor-pointer' />
+            </Link>
             </div>
         ):(
             <button 
