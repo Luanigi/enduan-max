@@ -38,7 +38,7 @@ export default function Post({post, onDeletePost}) {
           alt={post.username}
           className="h-12 rounded-full object-cover border-2 border-slate-600 p-1 mr-3"
         />
-        <p className="flex-1 font-bold">{post.username}</p>
+        <p className="flex-1 font-bold overflow-x-hidden">{post.username}</p>
         { session.user.username === post.username && (
           <button id="delete" onClick={() => setIsOpen(true)}>
             <HiOutlineDotsVertical className="cursor-pointer h-5" />
@@ -48,8 +48,8 @@ export default function Post({post, onDeletePost}) {
 
       <img src={post.image} alt={post.caption} className="object-cover w-full" />
       <LikeSection id={post.id} />
-      <p className="p-5 textdata">
-        <span className="font-bold mr-2">{post.username}</span>
+      <p className="p-5 overflow-x-hidden textdata">
+        <span className="font-bold">{post.username}</span>
         <br /> {post.caption}
       </p>
       <CommentSection id={post.id} />

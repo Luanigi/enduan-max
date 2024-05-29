@@ -76,7 +76,7 @@ export default function CommentSection({ id }) {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           placeholder='Add a comment...'
-          className='border-none flex-1 focus:ring-0 outline-none bg-zinc-700'
+          className='border-none flex w-full focus:ring-0 outline-none bg-zinc-700'
         />
         <button
           disabled={!comment.trim()}
