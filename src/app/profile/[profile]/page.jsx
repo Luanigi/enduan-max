@@ -107,7 +107,7 @@ export default function ProfilePage() {
         )}
 
         {session && (
-          <form onSubmit={handleSubmit} className='flex items-center p-4 gap-2 w-[500px] absolute bottom-0'>
+          <form onSubmit={handleSubmit} className='flex items-center p-4 gap-2 w-[500px] m-auto absolute bottom-0'>
           <h1 className='font-bold text-lg'>Blog:</h1>
           <input
             type='text'
