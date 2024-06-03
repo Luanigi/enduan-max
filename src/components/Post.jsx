@@ -34,13 +34,13 @@ export default function Post({post, onDeletePost}) {
  return (
     <div className="bg-zinc-700 my-7 border rounded-md mx-10">
       <div className="flex items-center p-5 border-bottom border-gray-100 border-b-2">
-      {/* <Link href={`/profile/${post.username}`}> */}
+      <Link href={`/profile/${post.username}`}>
         <img
           src={post.profileImg}
           alt={post.username}
           className="h-12 rounded-full object-cover border-2 border-slate-600 p-1 mr-3"
         />
-      {/* </Link> */}
+      </Link>
         <p className="flex-1 font-bold overflow-x-hidden">{post.username}</p>
         { session.user.username === post.username && (
           <button id="delete" onClick={() => setIsOpen(true)}>
