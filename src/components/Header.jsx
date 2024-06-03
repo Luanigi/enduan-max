@@ -111,7 +111,7 @@ export default function Header() {
 
 */}
   return (
-    <div className='shadow-sm border-b border-slate-500 sticky top-0 z-30 p-3 bg-white/200 backdrop-blur-2xl'>
+    <div className='shadow-sm border-b border-slate-500 sticky top-0 z-30 p-3 bg-zinc-900/50 backdrop-blur-2xl'>
         <div className='flex justify-between items-center max-w-6xl mx-auto'>
         {/*logo*/}
         

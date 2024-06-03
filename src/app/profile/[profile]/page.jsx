@@ -60,7 +60,7 @@ export default function ProfilePage() {
   }, [session]);
 
   if (status === 'loading') {
-    return <div>Loading...</div>;
+    return <div className='w-10 m-auto mt-20'>Loading...</div>;
   }
 
   if (status === 'error') {
@@ -91,12 +91,9 @@ export default function ProfilePage() {
                   alt='userimage'
                   className='h-7 rounded-full object-cover border border-slate-500 p-[2px]'
                 />
-                <p className='text-sm flex-1 truncate'>
-                <span className='font-bold text-slate-200'>
-                  {blog.data().username}
-                </span>{' '}
-                <br />
-                  {blog.data().blog}
+                <p className="text-sm flex-1 overflow-x-hidden textdata">
+                  <span className="font-bold">{blog.data().username}</span>
+                  <br /> {blog.data().blog}
                 </p>
                 <Moment fromNow className='text-xs text-gray-400 pr-1'>
                   {blog.data().timestamp?.toDate()}
@@ -107,7 +104,7 @@ export default function ProfilePage() {
         )}
 
         {session && (
-          <form onSubmit={handleSubmit} className='flex items-center p-4 gap-2 w-[500px] m-auto absolute bottom-0'>
+          <form onSubmit={handleSubmit} className='flex items-center p-4 gap-2 md:w-[500px] sm:w-[400px]  absolute bottom-0'>
           <h1 className='font-bold text-lg'>Blog:</h1>
           <input
             type='text'
