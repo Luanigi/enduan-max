@@ -82,29 +82,33 @@ export default function ProfilePage() {
         {blogs.length > 0 && (
           <div className='mx-10 max-h-[20rem] overflow-y-scroll'>
             {blogs.map((blog, id) => (
-              <div
-                key={id}
-                className='flex items-center space-x-2 mb-2 justify-between bg-zinc-600 p-2 rounded-md text-wrap'
-              >
+            <div
+              key={id}
+              className='space-x-2 mb-2 bg-zinc-600 p-2 rounded-md mr-5'
+            >
+              <span className='flex'>
                 <img
                   src={blog.data().userImage}
                   alt='userimage'
                   className='h-7 rounded-full object-cover border border-slate-500 p-[2px]'
                 />
-                <p className="text-sm flex-1 overflow-x-hidden textdata">
-                  <span className="font-bold">{blog.data().username}</span>
-                  <br /> {blog.data().blog}
+                <span className="text-lg font-bold pl-5">{blog.data().username}</span>
+              </span>
+              <div className='p-1 grid text-sm mt-3 bg-zinc-700 rounded-lg'>
+                <p className='text-ellipsis overflow-hidden line-clamp-2 h-10 white-space-pre-wrap'>
+                  {blog.data().blog}
                 </p>
-                <Moment fromNow className='text-xs text-gray-400 pr-1'>
-                  {blog.data().timestamp?.toDate()}
-                </Moment>
               </div>
-            ))}
+              <Moment fromNow className='text-xs text-gray-400 pr-1'>
+                {blog.data().timestamp?.toDate()}
+              </Moment>
+            </div>
+          ))}
           </div>
         )}
 
         {session && (
-          <form onSubmit={handleSubmit} className='flex items-center p-4 gap-2 md:w-[500px] sm:w-[400px]  absolute bottom-0'>
+          <form onSubmit={handleSubmit} className='flex items-center p-4 gap-2 md:w-[500px] sm:w-[400px] absolute bottom-0 m-auto'>
           <h1 className='font-bold text-lg'>Blog:</h1>
           <input
             type='text'
