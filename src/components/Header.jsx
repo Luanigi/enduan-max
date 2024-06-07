@@ -72,7 +72,7 @@ export default function Header() {
     async function handleSubmit() {
         setPostUploading(true);
         const docRef = await addDoc(collection(db, 'posts'), {
-            username: session.user.username,
+            username: session?.user?.username,
             caption,
             profileImg: session.user.image,
             image: imageFileUrl,
@@ -80,8 +80,8 @@ export default function Header() {
 
         })
         setPostUploading(false);
+        setSelectedFile(null);
         setIsOpen(false);
-        location.reload();
     }
 {/*}
     const search = () => {
