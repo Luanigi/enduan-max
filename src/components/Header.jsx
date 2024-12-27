@@ -118,7 +118,7 @@ export default function Header() {
         
         {/*search input*/}
 
-        <SearchPost />
+        {/* <SearchPost /> */}
         
         {/*menu items*/}
 
