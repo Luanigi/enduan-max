@@ -8,6 +8,7 @@ import { app } from '@/firebase'
 import { useSession } from 'next-auth/react'
 import React, { useState, useEffect } from "react"
 import { AiOutlineClose } from 'react-icons/ai'
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import Modal from 'react-modal'
 import Link from "next/link"
 
@@ -18,7 +19,12 @@ Modal.defaultStyles.content.backgroundColor = '#222222CC';
 export default function Post({post, onDeletePost}) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(onDeletePost ? true : false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const db = getFirestore(app);
+
+  // Check if we have a single image string or an array of images
+  const images = post.images || (post.image ? [post.image] : []);
+  const hasMultipleImages = images.length > 1;
 
   const handleDeletePost = async () => {
       try {
@@ -30,6 +36,15 @@ export default function Post({post, onDeletePost}) {
       }
   }
   
+  const handlePrevImage = (e) => {
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleNextImage = (e) => {
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
 
  return (
     <div className="bg-zinc-700 my-7 border rounded-md mx-10">
@@ -49,7 +64,44 @@ export default function Post({post, onDeletePost}) {
         )}
       </div>
 
-      <img src={post.image} alt={post.caption} className="object-cover w-full" />
+      <div className="relative">
+        {images.length > 0 && (
+          <img 
+            src={images[currentImageIndex]} 
+            alt={post.caption} 
+            className="object-cover w-full"
+          />
+        )}
+        
+        {/* Image indicators and navigation arrows */}
+        {hasMultipleImages && (
+          <>
+            <button 
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/30 p-2 rounded-full"
+              onClick={handlePrevImage}
+            >
+              <FiChevronLeft className="text-white text-xl" />
+            </button>
+            <button 
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/30 p-2 rounded-full"
+              onClick={handleNextImage}
+            >
+              <FiChevronRight className="text-white text-xl" />
+            </button>
+            
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-1">
+              {images.map((_, index) => (
+                <div 
+                  key={index}
+                  className={`h-2 w-2 rounded-full ${index === currentImageIndex ? 'bg-white' : 'bg-white/50'}`}
+                  onClick={() => setCurrentImageIndex(index)}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+      
       <LikeSection id={post.id} />
       <p className="p-5 overflow-x-hidden textdata">
         <span className="font-bold">{post.username}</span>

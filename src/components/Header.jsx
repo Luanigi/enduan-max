@@ -19,79 +19,102 @@ Modal.defaultStyles.content.backgroundColor = '#222222CC';
 export default function Header() {
     const { data: session } = useSession();
     const [isOpen, setIsOpen] = useState(false)
-    const [selectedFile, setSelectedFile] = useState(null)
-    const [imageFileUrl, setImageFileUrl] = useState(null)
-    const [imageFileUploading, setImageFileUploading] = useState(false)
+    const [selectedFiles, setSelectedFiles] = useState([])
+    const [imageFileUrls, setImageFileUrls] = useState([])
+    const [uploading, setUploading] = useState(false)
     const [postUploading, setPostUploading] = useState(false)
     const [caption, setCaption] = useState('');
     const [canSearch, setCanSearch] = useState(true);
+    const [currentUploadIndex, setCurrentUploadIndex] = useState(0);
+    const [uploadProgress, setUploadProgress] = useState(0);
     const filePickerRef = useRef(null)
     const db = getFirestore(app)
-    function addImageToPost(e) {
-        const file = e.target.files[0];
-        if (file) {
-            setSelectedFile(file);
-            setImageFileUrl(URL.createObjectURL(file))
+    
+    function addImagesToPost(e) {
+        const files = Array.from(e.target.files);
+        if (files.length > 0) {
+            setSelectedFiles(files);
+            const fileUrls = files.map(file => URL.createObjectURL(file));
+            setImageFileUrls(fileUrls);
         }
     }
 
     useEffect(() => {
-        if (selectedFile) {
-            uploadImageToStorage()
+        if (selectedFiles.length > 0) {
+            uploadImagesToStorage();
         }
-    }, [selectedFile])
+    }, [selectedFiles])
 
-    async function uploadImageToStorage() {
-        setImageFileUploading(true);
+    async function uploadImagesToStorage() {
+        setUploading(true);
+        setUploadProgress(0);
+        
         const storage = getStorage(app);
-        const fileName = new Date().getTime() + '-' + selectedFile.name;
-        const storageRef = ref(storage, fileName);
-        const uploadTask = uploadBytesResumable(storageRef, selectedFile); 
-        uploadTask.on(
-            'state-changed',
-            (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log('upload: ' + progress);
-            },
-            (error) => {
-                console.log(error);
-                setImageFileUploading(false);
-                setImageFileUrl(null);
-                setSelectedFile(null);
-            },
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then (
-                    (downloadURL) => {
-                        setImageFileUrl(downloadURL);
-                        setImageFileUploading(false)
-                    }
-                )
+        const uploadedUrls = [];
+        
+        try {
+            for (let i = 0; i < selectedFiles.length; i++) {
+                setCurrentUploadIndex(i);
+                const file = selectedFiles[i];
+                const fileName = new Date().getTime() + '-' + file.name;
+                const storageRef = ref(storage, fileName);
+                
+                const uploadTask = uploadBytesResumable(storageRef, file);
+                
+                // Wait for each upload to complete using a promise
+                const url = await new Promise((resolve, reject) => {
+                    uploadTask.on(
+                        'state-changed',
+                        (snapshot) => {
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            console.log(`Upload ${i+1}/${selectedFiles.length}: ${progress.toFixed(1)}%`);
+                            setUploadProgress(progress);
+                        },
+                        (error) => {
+                            console.log(error);
+                            reject(error);
+                        },
+                        async () => {
+                            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                            resolve(downloadURL);
+                        }
+                    );
+                });
+                
+                uploadedUrls.push(url);
             }
-        )
+            
+            setImageFileUrls(uploadedUrls);
+            setUploading(false);
+        } catch (error) {
+            console.error("Error uploading images:", error);
+            setUploading(false);
+        }
     }
 
     async function handleSubmit() {
+        if (imageFileUrls.length === 0) return;
+        
         setPostUploading(true);
-        const docRef = await addDoc(collection(db, 'posts'), {
-            username: session?.user?.username,
-            caption,
-            profileImg: session.user.image,
-            image: imageFileUrl,
-            timestamp: serverTimestamp(),
-
-        })
-        setPostUploading(false);
-        setSelectedFile(null);
-        setIsOpen(false);
+        try {
+            const docRef = await addDoc(collection(db, 'posts'), {
+                username: session?.user?.username,
+                caption,
+                profileImg: session.user.image,
+                images: imageFileUrls,
+                timestamp: serverTimestamp(),
+            });
+            
+            setPostUploading(false);
+            setSelectedFiles([]);
+            setImageFileUrls([]);
+            setIsOpen(false);
+            setCaption('');
+        } catch (error) {
+            console.error("Error creating post:", error);
+            setPostUploading(false);
+        }
     }
-
-
-
-
-   
-
-
-
 
   return (
     <div className='shadow-sm border-b border-slate-500 sticky top-0 z-30 p-3 bg-zinc-900/50 backdrop-blur-2xl'>
@@ -142,38 +165,80 @@ export default function Header() {
             isOpen && (
                 <Modal isOpen={isOpen} className={"max-w-lg w-[90%] p-6 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] backdrop-blur-2xl border-2 border-zinc-600 outline-none rounded-md shadow-md"} onRequestClose={() =>setIsOpen(false)} ariaHideApp={false}>
                     <div className='flex flex-col justify-center items-center h-[100%]'>
-                        {selectedFile ? (
-                            <img
-                                onClick={() => setSelectedFile(null)}
-                                src={imageFileUrl}
-                                alt='selected file'
-                                className={`w-full rounded max-h-[250px] object-cover cursor-pointer ${imageFileUploading ? 'animate-pulse' : ''}`}/>
+                        {selectedFiles.length > 0 ? (
+                            <div className="w-full">
+                                <div className="flex overflow-x-auto gap-2 pb-2 max-h-[250px]">
+                                    {imageFileUrls.map((url, index) => (
+                                        <img
+                                            key={index}
+                                            src={url}
+                                            alt={`Selected file ${index + 1}`}
+                                            className={`h-[200px] w-auto object-cover rounded cursor-pointer ${uploading ? 'opacity-70' : ''}`}
+                                            onClick={() => {
+                                                if (!uploading) {
+                                                    // Remove this image
+                                                    const newFiles = [...selectedFiles];
+                                                    newFiles.splice(index, 1);
+                                                    setSelectedFiles(newFiles);
+                                                    
+                                                    const newUrls = [...imageFileUrls];
+                                                    newUrls.splice(index, 1);
+                                                    setImageFileUrls(newUrls);
+                                                }
+                                            }}
+                                        />
+                                    ))}
+                                </div>
+                                {uploading && (
+                                    <div className="w-full bg-gray-300 rounded-full h-2.5 mt-3">
+                                        <div 
+                                            className="bg-blue-600 h-2.5 rounded-full" 
+                                            style={{ width: `${uploadProgress}%` }}
+                                        ></div>
+                                        <p className="text-xs text-gray-400 mt-1">
+                                            Uploading image {currentUploadIndex + 1} of {selectedFiles.length} ({uploadProgress.toFixed(0)}%)
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
                         ) : ( 
-                        <HiCamera onClick={()=>filePickerRef.current.click()} className='text-5xl text-gray-400 cursor-pointer'/>
+                            <HiCamera onClick={()=>filePickerRef.current.click()} className='text-5xl text-gray-400 cursor-pointer'/>
                         )}
                         <input 
                             ref={filePickerRef} 
                             hidden 
                             type="file" 
                             accept='image/*' 
-                            onChange={addImageToPost} />
+                            multiple
+                            onChange={addImagesToPost} />
+                            
+                        {selectedFiles.length > 0 && !uploading && (
+                            <button 
+                                onClick={() => filePickerRef.current.click()}
+                                className="mt-2 text-blue-500 text-sm"
+                            >
+                                Add more photos
+                            </button>
+                        )}
                     </div>
                     <input 
                         type="text" 
                         maxLength='150' 
                         placeholder='Please enter your caption...' 
                         className='my-4 border-none text-center w-full focus:ring-0 outline-none bg-transparent text-white' 
-                        onChange={(e) => setCaption(e.target.value)}/>
+                        onChange={(e) => setCaption(e.target.value)}
+                        value={caption}
+                    />
                         
                     <button 
                     onClick={handleSubmit}
                     
                     disabled={
-                        !selectedFile || caption.trim() === '' || postUploading || imageFileUploading
+                        selectedFiles.length === 0 || caption.trim() === '' || postUploading || uploading
                     }
                     
                     className='w-full bg-zinc-900 text-white p-2 shadow-md rounded-lg hover:brightness-105 disabled:bg-zinc-500 disabled:text-zinc-400 disabled:cursor-not-allowed disabled:hover:brightness-100'>
-                        {imageFileUploading ? 'Uploading...' : (selectedFile ? 'Upload Post' : 'Select Image')}
+                        {uploading ? `Uploading ${currentUploadIndex + 1}/${selectedFiles.length}...` : (selectedFiles.length > 0 ? `Upload Post (${selectedFiles.length} photo${selectedFiles.length > 1 ? 's' : ''})` : 'Select Images')}
                     </button>
                     
                     <AiOutlineClose className='cursor-pointer absolute top-2 right-2 hover:text-red-600 transition duration-300' onClick={() => setIsOpen(false)} />
